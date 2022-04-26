@@ -1,8 +1,36 @@
+from sklearn.cluster import KMeans
+from sklearn.metrics import adjusted_rand_score
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import datasets
 import streamlit as st
 import pandas as pd
+
+
+def k_means():
+    iris = datasets.load_iris()
+
+    x = pd.DataFrame(iris.data, columns=iris.feature_names)
+    y = pd.DataFrame(iris.target, columns=['species'])
+
+    model = KMeans(n_clusters=3)
+    model.fit(x)
+    y_labels = model.predict(x)
+    print('y_labels: ', y_labels)
+
+    accuracy = adjusted_rand_score(y['species'], y_labels)
+    print('accuracy: ', accuracy)
+
+    plt.scatter(x['sepal length (cm)'], x['sepal width (cm)'], c=y['species'], cmap='rainbow')
+    plt.xlabel('sepal length (cm)')
+    plt.ylabel('sepal width (cm)')
+    plt.show()
+
+    plt.scatter(x['petal length (cm)'], x['petal width (cm)'], c=y['species'], cmap='rainbow')
+    plt.xlabel('petal length (cm)')
+    plt.ylabel('petal width (cm)')
+    plt.show()
 
 
 def user_input_features():
