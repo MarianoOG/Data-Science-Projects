@@ -45,13 +45,13 @@ def app():
     * **Data source:** [Wikipedia](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies).
     """)
 
-    st.sidebar.header('User Input Features')
+    st.header('User Input Features')
 
     df = load_data()
 
-    # Sidebar - Sector selection
+    # Sector selection
     sorted_sector_unique = sorted(df['GICS Sector'].unique())
-    selected_sector = st.sidebar.multiselect('Sector', sorted_sector_unique, sorted_sector_unique)
+    selected_sector = st.multiselect('Sector', sorted_sector_unique, sorted_sector_unique)
 
     # Filtering data
     df_selected_sector = df[(df['GICS Sector'].isin(selected_sector))]
@@ -74,7 +74,7 @@ def app():
                        threads=True,
                        proxy=None)
 
-    num_company = st.sidebar.slider('Number of Companies', 1, 5)
+    num_company = st.slider('Number of Companies', 1, 5)
 
     if st.button('Show Plots'):
         st.header('Stock Closing Price')
@@ -82,8 +82,8 @@ def app():
             price_plot(i, data)
 
     # Get ticker and data on the ticker
-    st.sidebar.title("Choose a Ticker")
-    ticker_symbol = st.sidebar.selectbox("Ticker", ('GOOGL', 'FB'))
+    st.title("Choose a Ticker")
+    ticker_symbol = st.selectbox("Ticker", ('GOOGL', 'FB'))
     ticker_data = yf.Ticker(ticker_symbol)
 
     # ticker_df: Open, High, Low, Close, Volume, Dividends, Stock, Splits

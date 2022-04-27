@@ -25,25 +25,33 @@ def app():
     regresor = LinearRegression()
     regresor.fit(x_train, y_train)
 
-    # Gráfica de la regresión lineal simple
-    plt.scatter(x_train, y_train, color='blue')
-    plt.plot(x_train, regresor.predict(x_train), color='red')
-    plt.title('Salario vs Experiencia (Entrenamiento)')
-    plt.xlabel('Experiencia')
-    plt.ylabel('Salario')
-    plt.show()
+    st.title("Salary Prediction")
+    col1, col2 = st.columns(2)
 
     # Gráfica de la regresión lineal simple
-    plt.scatter(x_test, y_test, color='blue')
-    plt.plot(x_test, regresor.predict(x_test), color='red')
-    plt.title('Salario vs Experiencia (Prueba)')
-    plt.xlabel('Experiencia')
-    plt.ylabel('Salario')
-    plt.show()
+    with col1:
+        fig, ax = plt.subplots()
+        ax.scatter(x_train, y_train, color='blue')
+        ax.plot(x_train, regresor.predict(x_train), color='red')
+        ax.title.set_text('Salario vs Experiencia (Entrenamiento)')
+        ax.set_xlabel('Experiencia')
+        ax.set_ylabel('Salario')
+        st.pyplot(fig)
+
+    # Gráfica de la regresión lineal simple
+    with col2:
+        fig, ax = plt.subplots()
+        ax.scatter(x_test, y_test, color='blue')
+        ax.plot(x_test, regresor.predict(x_test), color='red')
+        ax.title.set_text('Salario vs Experiencia (Prueba)')
+        ax.set_xlabel('Experiencia')
+        ax.set_ylabel('Salario')
+        st.pyplot(fig)
 
     # Verify the accuracy of the model
+    st.header("Accuracy")
     score = regresor.score(x_test, y_test)
-    print(score)
+    st.write("Score", score)
 
 
 if __name__ == '__main__':

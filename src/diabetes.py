@@ -30,25 +30,26 @@ def app():
 
     confusion_matrix = metrics.confusion_matrix(y_test, y_prediction)
 
-    class_names = ['No Diabetes', 'Diabetes']
-    fig, ax = plt.subplots()
-    tick_marks = np.arange(len(class_names))
-    plt.xticks(tick_marks, class_names)
-    plt.yticks(tick_marks, class_names)
+    st.title('Diabetes Classification')
+    col1, col2 = st.columns([1, 2])
 
-    sns.heatmap(pd.DataFrame(confusion_matrix), annot=True, cmap="Blues_r", fmt='g')
-    ax.xaxis.set_label_position("top")
-    plt.tight_layout()
-    plt.title('Confusion matrix', y=1.1)
-    plt.ylabel('Actual label')
-    plt.xlabel('Predicted label')
-    plt.show()
+    with col1:
+        st.write('Accuracy: ', metrics.accuracy_score(y_test, y_prediction))
+        st.write('Precision: ', metrics.precision_score(y_test, y_prediction))
+        st.write('Recall: ', metrics.recall_score(y_test, y_prediction))
+        st.write('F1 Score: ', metrics.f1_score(y_test, y_prediction))
+        st.write('AUC: ', metrics.roc_auc_score(y_test, y_prediction))
 
-    print('Accuracy: ', metrics.accuracy_score(y_test, y_prediction))
-    print('Precision: ', metrics.precision_score(y_test, y_prediction))
-    print('Recall: ', metrics.recall_score(y_test, y_prediction))
-    print('F1 Score: ', metrics.f1_score(y_test, y_prediction))
-    print('AUC: ', metrics.roc_auc_score(y_test, y_prediction))
+    with col2:
+        # Plot the confusion matrix
+        fig, ax = plt.subplots()
+        sns.heatmap(pd.DataFrame(confusion_matrix), annot=True, cmap="Blues_r", fmt='g')
+        ax.title.set_text('Confusion matrix')
+        ax.set_ylabel('Actual label')
+        ax.set_xlabel('Predicted label')
+        ax.xaxis.set_ticklabels(['No Diabetes', 'Diabetes'])
+        ax.yaxis.set_ticklabels(['No Diabetes', 'Diabetes'])
+        st.pyplot(fig)
 
 
 if __name__ == '__main__':

@@ -45,12 +45,12 @@ def app():
 
     # Evaluate the model
     tree_accuracy = tree_one.score(x_validation, y_validation)
-    print("Accuracy: ", tree_accuracy)
+    st.write("Accuracy: ", tree_accuracy)
 
     # Make predictions over the test set
     predictions = tree_one.predict(x_test)
     test_data['Survived'] = predictions
-    print(test_data[['PassengerId', 'Survived']])
+    st.write(test_data[['PassengerId', 'Survived']])
 
     # Create CSV file for submission
     # test_data[['PassengerId', 'Survived']].to_csv('../../predictions/titanic_predictions.csv', index=False)

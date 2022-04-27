@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import altair as alt
 
 
 def dna_nucleotide_count(seq):
@@ -28,7 +29,7 @@ def app():
 
     st.write("***")
 
-    # Prints the input DNA sequence
+    # Shows the input DNA sequence
     st.header('INPUT (DNA Query)')
     st.code(sequence)
 
@@ -38,7 +39,7 @@ def app():
     col1, col2 = st.columns((1, 1))
     col3, col4 = st.columns((1, 1))
 
-    # 1. Print dictionary
+    # 1. Show dictionary
     with col1:
         st.subheader('1. Print dictionary')
         x = dna_nucleotide_count(sequence)
@@ -64,10 +65,9 @@ def app():
     # 4. Display Bar Chart using Altair
     with col4:
         st.subheader('4. Display Bar chart')
-        # TODO: add bar chart the altair library
-        # p = alt.Chart(df).mark_bar().encode( x='nucleotide', y='count')
-        # p = p.properties(width=alt.Step(80))
-        st.write("chart soon")
+        p = alt.Chart(df).mark_bar().encode(x='nucleotide', y='count')
+        p = p.properties(width=alt.Step(80))
+        st.altair_chart(p, use_container_width=True)
 
 
 if __name__ == '__main__':
