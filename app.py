@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # Add all your application here
     # TODO: Add recommendation app
     # TODO: Add face-recognition app
-    apps.add_app("Chaos Visualizations", chaos.app)
+    apps.add_app("Chaos", chaos.app)
     apps.add_app("Diabetes", diabetes.app)
     apps.add_app("Finance", finance.app)
     apps.add_app("Salaries", salaries.app)
