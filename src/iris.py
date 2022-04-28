@@ -129,7 +129,7 @@ def app():
     # Logistic Regression
     with col3:
         st.subheader('Logistic Regression')
-        logistic_regression_model = LogisticRegression()
+        logistic_regression_model = LogisticRegression(max_iter=1000)
         logistic_regression_model.fit(x_train, y_train)
         score = logistic_regression_model.score(x_test, y_test)
         st.write('Accuracy: ')

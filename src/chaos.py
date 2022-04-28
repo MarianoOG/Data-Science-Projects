@@ -44,7 +44,6 @@ def plot_bifurcation():
 
 
 def plot_lorenz():
-
     st.header("Lorenz system")
 
     # Initial conditions
@@ -108,7 +107,7 @@ def plot_lorenz():
 
 
 def app():
-    st.title("Chaos Simulator")
+    st.title("Chaos Simulation App")
     plot_lorenz()
     plot_bifurcation()
 

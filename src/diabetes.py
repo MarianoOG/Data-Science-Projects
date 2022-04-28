@@ -30,7 +30,7 @@ def app():
 
     confusion_matrix = metrics.confusion_matrix(y_test, y_prediction)
 
-    st.title('Diabetes Classification')
+    st.title('Diabetes Classification App')
     col1, col2 = st.columns([1, 2])
 
     with col1:
