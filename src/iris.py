@@ -1,12 +1,34 @@
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.cluster import KMeans
 from sklearn.metrics import adjusted_rand_score
 from sklearn import datasets
 import matplotlib.pyplot as plt
 import streamlit as st
 import pandas as pd
+
+
+@st.cache(allow_output_mutation=True)
+def train_models(x, y):
+    # K-Means
+    k_means = KMeans(n_clusters=3)
+    k_means.fit(x)
+
+    # Random Forest
+    random_forest = RandomForestClassifier()
+    random_forest.fit(x, y)
+
+    # Logistic Regression
+    logistic_regression = LogisticRegression(max_iter=1000)
+    logistic_regression.fit(x, y)
+
+    # Decision Tree
+    decision_tree = DecisionTreeClassifier()
+    decision_tree.fit(x, y)
+
+    return k_means, random_forest, logistic_regression, decision_tree
 
 
 def app():
@@ -97,40 +119,45 @@ def app():
     # Models and predictions
     st.header('Models and predictions')
     x_train, x_test, y_train, y_test = train_test_split(x, y['species'], test_size=0.2, random_state=0)
-    col1, col2, col3 = st.columns(3)
+    k_means_model, random_forest_model, logistic_regression_model, decision_tree_model = train_models(x_train, y_train)
+    col1, col2, col3, col4 = st.columns(4)
 
     # K-Means
     with col1:
-        st.subheader('K-Means')
-        k_means_model = KMeans(n_clusters=3)
-        k_means_model.fit(x_train)
+        # Score and prediction
         y_prediction = k_means_model.predict(x_test)
         accuracy = adjusted_rand_score(y_test, y_prediction)
+        k_means_prediction = k_means_model.predict(user_features)
+
+        # Write results
+        st.subheader('K-Means')
         st.write('Accuracy: ')
         st.write(accuracy)
         st.write('Prediction:')
-        k_means_prediction = k_means_model.predict(user_features)
         st.info(species[k_means_prediction[0]])
 
     # Random Forest
     with col2:
-        st.subheader('Random Forest')
-        random_forest_model = RandomForestClassifier()
-        random_forest_model.fit(x_train, y_train)
+        # Score and prediction
         score = random_forest_model.score(x_test, y_test)
+        random_forest_prediction = random_forest_model.predict(user_features)
+        random_forest_prediction_proba = random_forest_model.predict_proba(user_features)
+
+        # Write results
+        st.subheader('Random Forest')
         st.write('Accuracy:')
         st.write(score)
-        random_forest_prediction = random_forest_model.predict(user_features)
         st.write('Prediction:')
         st.info(species[random_forest_prediction[0]])
-        random_forest_prediction_proba = random_forest_model.predict_proba(user_features)
+
         st.write('Prediction Probability', random_forest_prediction_proba)
 
     # Logistic Regression
     with col3:
+        # Score and prediction
+
+        # Write results
         st.subheader('Logistic Regression')
-        logistic_regression_model = LogisticRegression(max_iter=1000)
-        logistic_regression_model.fit(x_train, y_train)
         score = logistic_regression_model.score(x_test, y_test)
         st.write('Accuracy: ')
         st.write(score)
@@ -139,6 +166,21 @@ def app():
         st.info(species[logistic_regression_prediction[0]])
         logistic_regression_prediction_proba = logistic_regression_model.predict_proba(user_features)
         st.write('Prediction Probability:', logistic_regression_prediction_proba)
+
+    # Decision Tree
+    with col4:
+        # Score and prediction
+        score = decision_tree_model.score(x_test, y_test)
+        decision_tree_prediction = decision_tree_model.predict(user_features)
+        decision_tree_prediction_proba = decision_tree_model.predict_proba(user_features)
+        
+        # Write results
+        st.subheader('Decision Tree')
+        st.write('Accuracy: ')
+        st.write(score)
+        st.write('Prediction:')
+        st.info(species[decision_tree_prediction[0]])
+        st.write('Prediction Probability:', decision_tree_prediction_proba)
 
 
 if __name__ == '__main__':

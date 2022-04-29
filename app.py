@@ -1,4 +1,4 @@
-from src import chaos, diabetes, dna, facerecognition, finance, iris, recommendation, salaries, titanic, wines
+from src import chaos, diabetes, dna, finance, iris, salaries, titanic, wines
 import streamlit as st
 
 
