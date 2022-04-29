@@ -58,7 +58,7 @@ def app():
     st.dataframe(df_filtered)
 
     # Visualize filtered data by sector and year
-    st.header('Ticker and company stock information')
+    st.header('Ticker and company stock information (from filtered results)')
     if df_filtered.shape[0] == 0:
         st.write('No data to display')
         return None
@@ -75,7 +75,7 @@ def app():
             selected_company = st.selectbox('Company', sorted_company_unique)
             selected_ticker = df_filtered[df_filtered['Company'] == selected_company]['Ticker'].values[0]
         else:
-            sorted_ticker_unique = sorted(df['Ticker'].unique())
+            sorted_ticker_unique = sorted(df_filtered['Ticker'].unique())
             selected_ticker = st.selectbox('Ticker', sorted_ticker_unique)
 
     st.write(df_filtered[df_filtered['Ticker'] == selected_ticker])
