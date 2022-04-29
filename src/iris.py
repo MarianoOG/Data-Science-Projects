@@ -10,6 +10,16 @@ import streamlit as st
 import pandas as pd
 
 
+def display_prediction(model_name, model_score, model_prediction, model_probability):
+    st.subheader(model_name)
+    st.write('Accuracy: ')
+    st.write(model_score)
+    st.write('Prediction:')
+    st.info(model_prediction)
+    st.write('Prediction Probability:')
+    st.write(model_probability)
+
+
 def app():
     # Load dataset
     iris = datasets.load_iris()
@@ -102,70 +112,43 @@ def app():
 
     # K-Means
     with col1:
-        # Score and prediction
         k_means_model = KMeans(n_clusters=3)
         k_means_model.fit(x_train)
         y_prediction = k_means_model.predict(x_test)
         accuracy = adjusted_rand_score(y_test, y_prediction)
         k_means_prediction = k_means_model.predict(user_features)
-
-        # Write results
-        st.subheader('K-Means')
-        st.write('Accuracy: ')
-        st.write(accuracy)
-        st.write('Prediction:')
-        st.info(species[k_means_prediction[0]])
+        display_prediction('K-Means', accuracy, species[k_means_prediction[0]],
+                           None)
 
     # Random Forest
     with col2:
-        # Score and prediction
         random_forest_model = RandomForestClassifier()
         random_forest_model.fit(x_train, y_train)
         score = random_forest_model.score(x_test, y_test)
         random_forest_prediction = random_forest_model.predict(user_features)
         random_forest_prediction_proba = random_forest_model.predict_proba(user_features)
-
-        # Write results
-        st.subheader('Random Forest')
-        st.write('Accuracy:')
-        st.write(score)
-        st.write('Prediction:')
-        st.info(species[random_forest_prediction[0]])
-        st.write('Prediction Probability', random_forest_prediction_proba)
+        display_prediction('Random Forest', score, species[random_forest_prediction[0]],
+                           random_forest_prediction_proba)
 
     # Logistic Regression
     with col3:
-        # Score and prediction
         logistic_regression_model = LogisticRegression(max_iter=1000)
         logistic_regression_model.fit(x_train, y_train)
         score = logistic_regression_model.score(x_test, y_test)
         logistic_regression_prediction = logistic_regression_model.predict(user_features)
         logistic_regression_prediction_proba = logistic_regression_model.predict_proba(user_features)
-
-        # Write results
-        st.subheader('L. Regression')
-        st.write('Accuracy: ')
-        st.write(score)
-        st.write('Prediction:')
-        st.info(species[logistic_regression_prediction[0]])
-        st.write('Prediction Probability:', logistic_regression_prediction_proba)
+        display_prediction('L. Regression', score, species[logistic_regression_prediction[0]],
+                           logistic_regression_prediction_proba)
 
     # Decision Tree
     with col4:
-        # Score and prediction
         decision_tree_model = DecisionTreeClassifier()
         decision_tree_model.fit(x_train, y_train)
         score = decision_tree_model.score(x_test, y_test)
         decision_tree_prediction = decision_tree_model.predict(user_features)
         decision_tree_prediction_proba = decision_tree_model.predict_proba(user_features)
-
-        # Write results
-        st.subheader('Decision Tree')
-        st.write('Accuracy: ')
-        st.write(score)
-        st.write('Prediction:')
-        st.info(species[decision_tree_prediction[0]])
-        st.write('Prediction Probability:', decision_tree_prediction_proba)
+        display_prediction('Decision Tree', score, species[decision_tree_prediction[0]],
+                           decision_tree_prediction_proba)
 
 
 if __name__ == '__main__':

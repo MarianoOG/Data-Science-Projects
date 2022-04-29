@@ -1,4 +1,4 @@
-from src import chaos, diabetes, dna, finance, iris, salaries, titanic, wines
+from src import chaos, diabetes, dna, finance, iris, salaries, titanic
 import streamlit as st
 
 
@@ -36,9 +36,8 @@ if __name__ == '__main__':
     apps.add_app("Finance", finance.app)
     apps.add_app("Salaries", salaries.app)  # TODO: make it more interactive and more methods
     apps.add_app("DNA", dna.app)            # TODO: amino-acid translation, https://www.youtube.com/watch?v=3FQZqS300qE
-    apps.add_app("Diabetes", diabetes.app)  # TODO: update this to be more interactive
-    apps.add_app("Wines", wines.app)        # TODO: create app for wine classification
-    apps.add_app("Titanic", titanic.app)    # TODO: update this to be more interactive and more methods
+    apps.add_app("Diabetes", diabetes.app)
+    apps.add_app("Titanic", titanic.app)
     apps.add_app("Iris", iris.app)
 
     # Add the menu to the sidebar
